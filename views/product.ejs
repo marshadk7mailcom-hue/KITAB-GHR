@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head><title>Kitab Ghar</title>
+<style>
+body{background:#fff;color:#000;font-family:Arial;margin:0}
+.navbar{background:#000;color:gold;padding:15px 30px}
+.product-container{display:flex;gap:40px;padding:40px}
+.product-container img{width:400px;height:500px;object-fit:cover;border-radius:12px}
+.price{font-size:24px;font-weight:bold}
+.add-btn{background:#000;color:#fff;padding:14px 30px;border:none;border-radius:8px;width:100%}
+</style>
+</head>
+<body>
+<div class="navbar">KITAB GHAR</div>
+<div class="product-container">
+<img src="<%= book.image %>">
+<div>
+<h1><%= book.title %></h1>
+<p><%= book.author %></p>
+<p class="price">Rs. <%= book.price %></p>
+<button class="add-btn">Add to Cart</button>
+</div>
+</div>
+</body>
+</html>

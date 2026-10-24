@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin - KITAB GHR</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+</head>
+<body style="margin:0; font-family:sans-serif; background:#f8f3e9;">
+<div style="background:#111; color:#fff; padding:15px 25px; display:flex; justify-content:space-between; align-items:center;">
+  <h2 style="margin:0; font-family:'Playfair Display', serif; color:#d4af37;">KITAB GHR - ADMIN</h2>
+  <div>
+    <a href="/admin?pass=adkhan123" style="background:#d4af37; color:#111; padding:8px 15px; text-decoration:none; border-radius:5px; font-weight:bold;">Refresh</a>
+    <a href="/" style="background:#fff; color:#111; padding:8px 15px; text-decoration:none; border-radius:5px; margin-left:10px;">Website</a>
+  </div>
+</div>
+
+<div style="max-width:1100px; margin:20px auto; padding:0 15px;">
+  <div style="display:flex; gap:15px; flex-wrap:wrap; margin-bottom:25px;">
+    <div style="flex:1; min-width:150px; background:#111; color:#d4af37; padding:20px; border-radius:12px; text-align:center;"><h3 style="margin:0; font-size:28px;"><%= orders.length %></h3><p style="margin:5px 0 0; color:#fff;">Total Orders</p></div>
+    <div style="flex:1; min-width:150px; background:#fff; border:2px solid #d4af37; padding:20px; border-radius:12px; text-align:center;"><h3 style="margin:0; font-size:28px;">Rs. <%= orders.reduce((a,b)=>a+(b.total||0),0) %></h3><p style="margin:5px 0 0; color:#666;">Total Sale</p></div>
+    <div style="flex:1; min-width:150px; background:#fff; border:1px solid #ddd; padding:20px; border-radius:12px; text-align:center;"><h3 style="margin:0; font-size:28px;"><%= books.length %></h3><p style="margin:5px 0 0;">Total Books</p></div>
+  </div>
+
+  <!-- ADD BOOK FORM -->
+  <div style="background:#fff; padding:20px; border-radius:12px; border:2px solid #111; margin-bottom:30px;">
+    <h2 style="font-family:'Playfair Display', serif; margin-top:0;">+ Nayi Kitab Add Karo</h2>
+    <form action="/admin/add-book?pass=adkhan123" method="POST" style="display:flex; gap:10px; flex-wrap:wrap;">
+      <input name="title" placeholder="Kitab ka naam" required style="flex:2; min-width:200px; padding:10px; border-radius:6px; border:1px solid #ccc;">
+      <input name="author" placeholder="Writer" required style="flex:1; min-width:150px; padding:10px; border-radius:6px; border:1px solid #ccc;">
+      <input name="price" type="number" placeholder="Price" required style="width:100px; padding:10px; border-radius:6px; border:1px solid #ccc;">
+      <input name="image" placeholder="Image Link (https://...)" required style="flex:2; min-width:200px; padding:10px; border-radius:6px; border:1px solid #ccc;">
+      <button type="submit" style="background:#111; color:#d4af37; border:none; padding:10px 20px; border-radius:6px; font-weight:bold; cursor:pointer;">Add Karo</button>
+    </form>
+  </div>
+
+  <h2 style="font-family:'Playfair Display', serif;">Tamam Kitabein (<%= books.length %>)</h2>
+  <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:15px; margin-bottom:30px;">
+    <% books.forEach(b=>{ %>
+      <div style="background:#fff; border-radius:10px; padding:12px; border:1px solid #eee;">
+        <img src="<%= b.image %>" style="width:100%; height:150px; object-fit:cover; border-radius:8px;">
+        <b style="display:block; margin-top:8px;"><%= b.title %></b>
+        <small><%= b.author %> - Rs.<%= b.price %></small>
+        <form action="/admin/delete-book/<%= b.id %>?pass=adkhan123" method="POST" onsubmit="return confirm('Delete karni hai?')">
+          <button type="submit" style="margin-top:8px; background:#ffdddd; color:#a00; border:none; padding:6px 12px; border-radius:5px; cursor:pointer; width:100%;">Delete</button>
+        </form>
+      </div>
+    <% }) %>
+  </div>
+
+  <h1 style="font-family:'Playfair Display', serif;">Naye Orders (<%= orders.length %>)</h1>
+  <% if(orders.length==0){ %><div style="background:#fff; padding:30px; text-align:center; border-radius:12px; border:1px dashed #d4af37;">Abhi koi order nahi</div><% } %>
+  <% orders.slice().reverse().forEach(o=>{ %>
+    <div style="background:#fffdf7; border:1px solid #e0c88a; padding:20px; margin:15px 0; border-radius:12px;">
+      <b><%= o.name %></b> - <%= o.phone %> - <%= o.city %><br><%= o.address %><br><small><%= o.date %></small><br><br>
+      <% (o.items||[]).forEach(i=>{ %><span style="background:#111; color:#fff; padding:5px 10px; margin:3px; display:inline-block; border-radius:20px; font-size:12px;"><%= i.title %></span><% }) %>
+      <br><br><b>Total: Rs. <%= o.total %></b>
+    </div>
+  <% }) %>
+</div>
+</body>
+</html>

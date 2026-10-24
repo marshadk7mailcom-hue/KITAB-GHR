@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KITAB GHR</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  body{background:#0c0a07;position:relative;overflow-x:hidden}
+  body::before{content:'';position:fixed;inset:0;z-index:-3;background: radial-gradient(800px 500px at 15% 10%, rgba(234,179,8,0.15), transparent), radial-gradient(700px 500px at 90% 30%, rgba(168,85,247,0.12), transparent), radial-gradient(600px 400px at 50% 90%, rgba(234,179,8,0.08), transparent)}
+  .glass{background:rgba(255,255,255,0.05);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.08)}
+  .modal-bg{backdrop-filter:blur(20px);background:rgba(0,0,0,0.75)}
+  .modal-anim{animation:pop 0.4s cubic-bezier(0.34,1.56,0.64,1)}
+  @keyframes pop{0%{transform:scale(0.8) translateY(40px);opacity:0}100%{transform:scale(1) translateY(0);opacity:1}}
+  .aesthetic-card{position:relative;overflow:hidden}
+  .aesthetic-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at center, rgba(234,179,8,0.12), transparent 40%);pointer-events:none}
+  .glow{box-shadow:0 0 40px rgba(234,179,8,0.15)}
+</style>
+</head>
+<body class="text-white">
+
+<!-- FLOATING BLOBS -->
+<div class="fixed -top-32 -left-32 w-[500px] h-[500px] bg-yellow-500/10 rounded-full blur-[120px] z-[-2]"></div>
+<div class="fixed top-[40%] -right-32 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-[120px] z-[-2]"></div>
+<nav class="sticky top-0 z-40 bg-black/80 backdrop-blur-xl border-b border-white/10 px-6 py-4 flex justify-between items-center">
+  <a href="/" class="font-black tracking-[0.3em] text-yellow-400 text-sm">KITAB GHR</a>
+  <div class="flex gap-6 items-center text-xs text-white/70">
+    <a href="/" class="hover:text-white">Home</a>
+    <a href="about" class="hover:text-white">About</a>
+    <a href="contact" class="hover:text-white">Contact</a>
+    <a href="/cart" class="bg-white text-black px-5 py-2 rounded-full font-bold hover:bg-yellow-400">
+      Cart (<span id="cart-count">0</span>)
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="max-w-[1300px] mx-auto m-5 rounded-[40px] glass glow overflow-hidden">
+  <div class="grid md:grid-cols-2 gap-10 items-center p-10 md:p-16 relative">
+    <div class="absolute inset-0 bg-gradient-to-br from-yellow-500/10 via-transparent to-purple-500/10"></div>
+    <div class="relative">
+      <p class="text-yellow-400 text-[11px] tracking-[0.4em] mb-4 font-bold">EST. 1998 • PESHAWAR</p>
+      <h1 class="text-5xl md:text-7xl font-black leading-[0.85] tracking-tight">Kahaniyan Jo <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-600">Naslon Tak</span> Zinda Hain</h1>
+      <p class="text-white/50 mt-6 text-[13px] leading-6 max-w-md">Pashto adab, tareekh aur saqafat ki nayaab kitabein. 25 saal se asli kitabein, asli daam me.</p>
+      <div class="flex gap-3 mt-8">
+        <a href="#books" class="bg-yellow-400 text-black px-8 py-3.5 rounded-full text-sm font-black">Kitabein Dekhein</a>
+        <a href="https://wa.me/923451406593" class="glass px-8 py-3.5 rounded-full text-sm font-bold">WhatsApp</a>
+      </div>
+    </div>
+    <div class="relative group">
+      <div class="absolute -inset-3 bg-gradient-to-r from-yellow-500/20 to-purple-500/20 rounded-[32px] blur-xl group-hover:blur-2xl transition"></div>
+      <img src="https://images.pexels.com/photos/590493/pexels-photo-590493.jpeg?auto=compress&cs=tinysrgb&w=800" class="relative rounded-[28px] h-[420px] w-full object-cover border border-white/10">
+    </div>
+  </div>
+</section>
+
+<!-- BOOKS -->
+<section id="books" class="max-w-[1300px] mx-auto px-6 py-12">
+  <div class="flex justify-between items-end mb-8"><h2 class="text-3xl font-black tracking-tight">Khas Collection</h2><p class="text-xs text-white/30">Click par detail khulegi</p></div>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+    <% books.forEach(function(book){ %>
+      <div onclick="openModal('<%= book.id %>')" class="group cursor-pointer glass aesthetic-card rounded-[22px] overflow-hidden hover:border-yellow-500/30 hover:scale-[1.02] transition-all duration-300">
+        <div class="relative overflow-hidden"><img src="<%= book.image %>" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500"><div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div></div>
+        <div class="p-4 relative"><h4 class="text-[13px] font-bold leading-tight"><%= book.title %></h4><p class="text-[11px] text-white/40 mt-1"><%= book.author %></p><div class="flex justify-between items-center mt-3"><b class="text-sm text-yellow-400">Rs.<%= book.price %></b><span class="text-[10px] bg-white/10 px-3 py-1 rounded-full">View</span></div></div>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
+<!-- ABOUT + STATS -->
+<section id="about" class="max-w-[1300px] mx-auto px-6 py-14">
+  <div class="glass rounded-[40px] p-10 md:p-14 grid md:grid-cols-2 gap-12 items-center">
+    <div><h2 class="text-4xl font-black leading-none">25 Saal Se <br><span class="text-white/30">Adab Ki Khidmat</span></h2><p class="text-white/50 text-[13px] mt-5 leading-6">Qissa Khwani Bazar se shuru hone wala safar aaj pure Pakistan me kitabein pohcha raha hai. Har kitab original, har customer khaas.</p></div>
+    <div class="grid grid-cols-3 gap-4"><div class="bg-black/50 border border-white/10 rounded-[20px] p-6 text-center"><b class="text-3xl text-yellow-400">25+</b><p class="text-[11px] text-white/40 mt-2">Years</p></div><div class="bg-black/50 border border-white/10 rounded-[20px] p-6 text-center"><b class="text-3xl text-yellow-400">10k+</b><p class="text-[11px] text-white/40 mt-2">Customers</p></div><div class="bg-black/50 border border-white/10 rounded-[20px] p-6 text-center"><b class="text-3xl text-yellow-400">COD</b><p class="text-[11px] text-white/40 mt-2">All Pakistan</p></div></div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="max-w-[1300px] mx-auto px-6 grid md:grid-cols-3 gap-6">
+  <div class="glass rounded-[24px] p-7"><div class="w-10 h-10 rounded-full bg-yellow-400/20 flex items-center justify-center text-yellow-400"><i class="fa-solid fa-truck-fast text-sm"></i></div><h4 class="font-bold text-sm mt-4">Tez Delivery</h4><p class="text-xs text-white/40 mt-2 leading-5">Lahore, Karachi, Peshawar - 2 din me.</p></div>
+  <div class="glass rounded-[24px] p-7"><div class="w-10 h-10 rounded-full bg-purple-400/20 flex items-center justify-center text-purple-400"><i class="fa-solid fa-shield-halved text-sm"></i></div><h4 class="font-bold text-sm mt-4">Cash on Delivery</h4><p class="text-xs text-white/40 mt-2 leading-5">Pehle dekho, phir paise do.</p></div>
+  <div class="glass rounded-[24px] p-7"><div class="w-10 h-10 rounded-full bg-yellow-400/20 flex items-center justify-center text-yellow-400"><i class="fa-solid fa-book-open text-sm"></i></div><h4 class="font-bold text-sm mt-4">Nayaab Zakheera</h4><p class="text-xs text-white/40 mt-2 leading-5">Jo kahin aur nahi milegi.</p></div>
+</section>
+
+<!-- REVIEWS -->
+<section class="max-w-[1300px] mx-auto px-6 py-14">
+  <h2 class="text-2xl font-black mb-6">Log Kya Kehte Hain</h2>
+  <div class="grid md:grid-cols-3 gap-6">
+    <div class="glass rounded-[20px] p-6"><p class="text-sm text-white/70 leading-6">"Original kitab, behtareen packing. Highly recommended."</p><p class="text-xs text-yellow-400 mt-4 font-bold">— Ahmad • Lahore</p></div>
+    <div class="glass rounded-[20px] p-6"><p class="text-sm text-white/70 leading-6">"Azeem bhai ka ikhlaq aur kitab dono lajawab."</p><p class="text-xs text-yellow-400 mt-4 font-bold">— Khan • Peshawar</p></div>
+    <div class="glass rounded-[20px] p-6"><p class="text-sm text-white/70 leading-6">"2 din me Karachi pohach gayi. Zabardast service."</p><p class="text-xs text-yellow-400 mt-4 font-bold">— Bilal • Karachi</p></div>
+  </div>
+</section>
+
+<footer id="contact" class="mt-6 border-t border-white/10 bg-black/40 backdrop-blur-xl">
+  <div class="max-w-[1300px] mx-auto px-6 py-12 grid md:grid-cols-2 gap-10">
+    <div><h3 class="font-black tracking-[0.3em] text-yellow-400 text-sm">KITAB GHR</h3><p class="text-xs text-white/30 mt-4 leading-6">Urdu bazar lahore<br>WhatsApp: 0345-1406593<br>Daily 9am - 9pm • All Pakistan Delivery</p></div>
+    <div class="md:text-right"><a href="https://wa.me/923451406593" class="inline-block bg-[#25D366] text-white px-8 py-3.5 rounded-full text-sm font-black">contact on whatsapp</a></div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div id="productModal" class="fixed inset-0 z-50 hidden modal-bg flex items-center justify-center p-4">
+  <div class="modal-anim bg-[#15130f] border border-white/10 rounded-[28px] max-w-3xl w-full grid md:grid-cols-2 overflow-hidden relative glow">
+    <button onclick="closeModal()" class="absolute top-4 right-4 bg-white/10 backdrop-blur w-8 h-8 rounded-full z-10">✕</button>
+    <img id="mImg" src="" class="w-full h-[420px] md:h-full object-cover">
+    <div class="p-7">
+      <h2 id="mTitle" class="text-xl font-black"></h2><p id="mAuthor" class="text-white/40 text-xs mt-1"></p><p id="mPrice" class="text-yellow-400 text-2xl font-black mt-3"></p>
+      <div class="mt-6 space-y-3">
+        <input id="mQty" type="number" value="1" min="1" class="w-full bg-black/50 border border-white/10 rounded-full px-4 py-3 text-sm focus:border-yellow-400/50 outline-none">
+        <input id="mName" placeholder="Aapka Naam" class="w-full bg-black/50 border border-white/10 rounded-full px-4 py-3 text-sm outline-none">
+        <input id="mPhone" placeholder="Mobile Number" class="w-full bg-black/50 border border-white/10 rounded-full px-4 py-3 text-sm outline-none">
+        <input id="mCity" placeholder="City" class="w-full bg-black/50 border border-white/10 rounded-full px-4 py-3 text-sm outline-none">
+        <textarea id="mAddress" placeholder="Mukamal Address" class="w-full bg-black/50 border border-white/10 rounded-[16px] px-4 py-3 text-sm h-16 outline-none"></textarea>
+        <button onclick="addToCartModal()" class="w-full bg-white text-black py-3.5 rounded-full font-black text-sm hover:bg-yellow-400 transition">Add To Cart</button>
+        <button id="waBtn" onclick="orderWhatsApp()" class="hidden w-full bg-[#25D366] text-white py-3.5 rounded-full font-black text-sm">WhatsApp par Order Bhejein</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white text-black px-6 py-3 rounded-full text-xs font-bold hidden z-[60]">Added to Cart!</div>
+<a href="https://wa.me/923451406593" target="_blank" class="fixed bottom-6 right-6 bg-[#25D366] w-14 h-14 rounded-full flex items-center justify-center text-2xl z-40 shadow-[0_0_30px_rgba(37,211,102,0.4)]"><i class="fab fa-whatsapp text-white"></i></a>
+<div id="books-data" data-books="<%- encodeURIComponent(JSON.stringify(books)) %>" hidden></div>
+<script>
+var allBooks = JSON.parse(decodeURIComponent(document.getElementById('books-data').getAttribute('data-books')));
+var cart = JSON.parse(localStorage.getItem('cart') || '[]');
+var currentProduct=null;
+function updateCount(){var t=0;for(var i=0;i<cart.length;i++){t+=Number(cart[i].qty)||0}var el=document.getElementById('cart-count');if(el)el.innerText=t}
+updateCount();
+function openModal(id){
+  var b=null;for(var i=0;i<allBooks.length;i++){if(String(allBooks[i].id)===String(id)){b=allBooks[i]}}
+  if(!b)return;currentProduct=b;
+  document.getElementById('mImg').src=b.image;
+  document.getElementById('mTitle').innerText=b.title;
+  document.getElementById('mAuthor').innerText=b.author;
+  document.getElementById('mPrice').innerText='Rs.'+b.price;
+  document.getElementById('productModal').classList.remove('hidden');
+  document.getElementById('waBtn').classList.add('hidden');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){document.getElementById('productModal').classList.add('hidden');document.body.style.overflow=''}
+function addToCartModal(){
+  var qty=Number(document.getElementById('mQty').value)||1;
+  var name=document.getElementById('mName').value;var phone=document.getElementById('mPhone').value;var city=document.getElementById('mCity').value;var address=document.getElementById('mAddress').value;
+  if(!name||!phone||!city||!address){alert('Naam, Number, City, Address bhar dein');return}
+  var found=null;for(var i=0;i<cart.length;i++){if(String(cart[i].id)===String(currentProduct.id)){found=cart[i]}}
+  if(found){found.qty+=qty}else{cart.push({id:currentProduct.id,title:currentProduct.title,price:currentProduct.price,qty:qty})}
+  localStorage.setItem('cart',JSON.stringify(cart));updateCount();
+  document.getElementById('toast').classList.remove('hidden');setTimeout(function(){document.getElementById('toast').classList.add('hidden')},1200);
+  document.getElementById('waBtn').classList.remove('hidden');
+}
+function orderWhatsApp(){
+  var name=document.getElementById('mName').value;var phone=document.getElementById('mPhone').value;var city=document.getElementById('mCity').value;var address=document.getElementById('mAddress').value;var qty=document.getElementById('mQty').value;
+  var msg='Salam! Naya Order:%0A- '+currentProduct.title+' x '+qty+'%0AName: '+name+'%0APhone: '+phone+'%0ACity: '+city+'%0AAddress: '+address;
+  window.open('https://wa.me/923451406593?text='+msg,'_blank');
+  window.location.href='/thank-you';
+}
+</script>
+</body>
+</html>
