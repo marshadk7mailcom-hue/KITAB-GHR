@@ -84,9 +84,13 @@ app.post('/api/order', (req,res)=>{
 });
 
 // ADMIN - Dashboard
+// ADMIN - Dashboard
 app.get('/admin', (req,res)=>{
-if (req.query.pass !== ADMIN_PASS_1 && req.query.pass !== ADMIN_PASS_2)
-  res.render('admin', {orders, books});
+  if (req.query.pass === ADMIN_PASS_1 || req.query.pass === ADMIN_PASS_2) {
+    res.render('admin', {orders, books});
+  } else {
+    res.send('Unauthorized - Aap ?pass= apna_password lagayen');
+  }
 });
 
 // ADMIN - Add Book
@@ -100,7 +104,7 @@ app.post('/admin/add-book', (req,res)=>{
     price: parseInt(req.body.price) || 0,
     image: req.body.image
   });
-  res.redirect('/admin?pass='+ADMIN_PASS);
+ res.redirect('/admin?pass='+ADMIN_PASS_1);
 });
 
 // ADMIN - Delete Book
