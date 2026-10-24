@@ -95,7 +95,7 @@ app.get('/admin', (req,res)=>{
 
 // ADMIN - Add Book
 app.post('/admin/add-book', (req,res)=>{
-  if(req.query.pass !== ADMIN_PASS) return res.send('Unauthorized');
+  if(req.query.pass !== ADMIN_PASS_1 && req.query.pass !== ADMIN_PASS_2) return res.send('Unauthorized');
   const newId = books.length > 0 ? Math.max(...books.map(b=>b.id)) + 1 : 1;
   books.push({
     id: newId,
@@ -104,7 +104,7 @@ app.post('/admin/add-book', (req,res)=>{
     price: parseInt(req.body.price) || 0,
     image: req.body.image
   });
- res.redirect('/admin?pass='+ADMIN_PASS_1);
+ res.redirect('/admin?pass='+req.query.pass);
 });
 
 // ADMIN - Delete Book
