@@ -109,15 +109,14 @@ app.post('/admin/add-book', (req,res)=>{
 
 // ADMIN - Delete Book
 app.post('/admin/delete-book/:id', (req,res)=>{
-  if(req.query.pass !== ADMIN_PASS) return res.send('Unauthorized');
+  if(req.query.pass !== ADMIN_PASS_1 && req.query.pass !== ADMIN_PASS_2) return res.send('Unauthorized');
   books = books.filter(b => b.id != req.params.id);
-  res.redirect('/admin?pass='+ADMIN_PASS);
+  res.redirect('/admin?pass='+req.query.pass);
 });
 app.get('/thank-you', (req, res) => {
   res.render('thankyou');
 });
 app.use((req, res) => { res.status(404).render('404', { title: "404", description: "Not found" }); });
-const ADMIN_PASS="adkhan123";
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => console.log("Server running on port "+PORT));
